@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: postgres
+    restart: always
+    image: postgres:15.7
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123aa567
+      POSTGRES_DB: gateway
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+      - rabbitmq
+      - redis
+
+volumes:
+  data:
+  rabbitmq_data:
