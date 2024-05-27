@@ -25,12 +25,12 @@ public class RabbitConfiguration {
 
     @Bean
     public TopicExchange topicExchange() {
-        return new TopicExchange("message_exchange");
+        return new TopicExchange(exchange);
     }
 
     @Bean
     public Queue queue() {
-        return new Queue("message_queue");
+        return new Queue(queue);
     }
 
     @Bean
@@ -38,7 +38,7 @@ public class RabbitConfiguration {
         return BindingBuilder
                 .bind(queue)
                 .to(topicExchange)
-                .with("message_routingKey");
+                .with(routingKey);
     }
 
     @Bean

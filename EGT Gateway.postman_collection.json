@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "bf832f8d-cabe-456a-a632-c33ec0adfd7b",
+		"name": "EGT Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14463677"
+	},
+	"item": [
+		{
+			"name": "JSON",
+			"item": [
+				{
+					"name": "Current Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"requestId\": \"b89577fe-8c37-4962-8af3-7cb89a245160\",\r\n\"timestamp\": 1586335186721, \r\n\"client\": \"1234\",\r\n\"currency\":\"EUR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/json_api/current",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"json_api",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "History Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"requestId\": \"b89577fe-8c37-4962-8af3-7cb89a24516s\",\r\n\"timestamp\": 1586335186721, \r\n\"client\": \"1234\",\r\n\"currency\":\"EUR\",\r\n\"period\": 24\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/json_api/history",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"json_api",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "XML",
+			"item": [
+				{
+					"name": "Current Currency",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<command id=\"1234\" >\r\n<get consumer=\"13617162\" >\r\n<currency>EUR</currency>\r\n</get>\r\n</command>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/xml_api/command",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"xml_api",
+								"command"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "History Currency",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<command id=\"1234-8785\" >\r\n<history consumer=\"13617162\" currency=\"EUR\" period=\"24\" />\r\n</command>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/xml_api/command",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"xml_api",
+								"command"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Request Count",
+			"item": [
+				{
+					"name": "Request Count Success",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"serviceId\": \"SERVICE_ONE\",\r\n \"timeRangeStart\": 1744819200000,\r\n  \"timeRangeEnd\": 1744862400000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/requests/count",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"requests",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Count Error",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"serviceId\": \"SERVICE_ONE\",\r\n  \"timeRangeStart\": 1649827200000,\r\n  \"timeRangeEnd\": 1649863200000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/requests/count",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"requests",
+								"count"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
