@@ -1,4 +1,4 @@
-package com.egt.gateway.service.json;
+package com.egt.gateway.service.currency.json;
 
 import com.egt.gateway.controller.json.dto.CurrentCurrencyRatesResponse;
 

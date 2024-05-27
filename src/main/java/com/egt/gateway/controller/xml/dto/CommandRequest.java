@@ -1,6 +1,5 @@
 package com.egt.gateway.controller.xml.dto;
 
-
 import jakarta.xml.bind.annotation.*;
 import lombok.Data;
 

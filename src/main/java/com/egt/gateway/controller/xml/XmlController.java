@@ -4,8 +4,8 @@ import com.egt.gateway.controller.xml.dto.CommandRequest;
 import com.egt.gateway.controller.xml.dto.CurrencyRatesXmlResponse;
 import com.egt.gateway.controller.xml.dto.Get;
 import com.egt.gateway.controller.xml.dto.History;
-import com.egt.gateway.exceptions.DuplicateRequestException;
-import com.egt.gateway.service.xml.XmlService;
+import com.egt.gateway.service.currency.xml.XmlService;
+import jakarta.validation.Valid;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -13,9 +13,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.StringReader;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -38,14 +40,8 @@ public class XmlController {
             } else {
                 return ResponseEntity.ok(xmlService.getCurrencyHistoryData(command.getId(), history.get().getConsumer(), history.get().getCurrency(), history.get().getPeriod()));
             }
-
         } catch (JAXBException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CurrencyRatesXmlResponse.builder().build());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<String> handleDuplicateRequestException(DuplicateRequestException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }

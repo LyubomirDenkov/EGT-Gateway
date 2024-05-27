@@ -1,4 +1,4 @@
-package com.egt.gateway.service.xml;
+package com.egt.gateway.service.currency.xml;
 
 import com.egt.gateway.controller.xml.dto.CurrencyRatesXmlResponse;
 

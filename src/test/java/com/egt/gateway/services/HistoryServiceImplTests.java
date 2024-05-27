@@ -1,10 +1,13 @@
 package com.egt.gateway.services;
 
+import com.egt.gateway.controller.externalservice.dto.RequestsExternalServicesResponse;
+import com.egt.gateway.exceptions.DuplicateRequestException;
+import com.egt.gateway.exceptions.TimeRangeException;
 import com.egt.gateway.model.ExternalService;
 import com.egt.gateway.model.RequestHistory;
 import com.egt.gateway.repository.externalservices.ExternalServiceRepository;
 import com.egt.gateway.repository.history.HistoryRepository;
-import com.egt.gateway.service.statistic.HistoryServiceImpl;
+import com.egt.gateway.service.history.HistoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,7 +56,7 @@ public class HistoryServiceImplTests {
     public void testSaveRequestHistoryNewExternalService() {
         when(externalServiceRepository.findByServiceName(externalServiceName)).thenReturn(Optional.of(externalService));
 
-        historyService.saveRequestHistory(requestId, externalServiceName, clientId);
+        historyService.saveRequestHistory(requestId, LocalDateTime.now(), externalServiceName, clientId);
 
         ArgumentCaptor<RequestHistory> requestHistoryCaptor = ArgumentCaptor.forClass(RequestHistory.class);
         verify(historyRepository).save(requestHistoryCaptor.capture());
@@ -64,16 +68,46 @@ public class HistoryServiceImplTests {
     }
 
     @Test
-    public void testIsHistoryRequestIdExistTrue() {
-        when(historyRepository.findByRequestId(requestId)).thenReturn(Optional.of(requestHistory));
-        boolean exists = historyService.isHistoryRequestIdExist(requestId);
-        assertTrue(exists);
+    public void testIsHistoryRequestIdNotExistFalse() {
+        when(historyRepository.findByRequestId(requestId)).thenReturn(Optional.empty());
+
+        historyService.validateHistoryRequestIdNotExist(requestId);
+
+        verify(historyRepository, times(1)).findByRequestId(requestId);
     }
 
     @Test
-    public void testIsHistoryRequestIdExistFalse() {
-        when(historyRepository.findByRequestId(requestId)).thenReturn(Optional.empty());
-        boolean exists = historyService.isHistoryRequestIdExist(requestId);
-        assertFalse(exists);
+    public void testIsHistoryRequestIdExist() {
+        when(historyRepository.findByRequestId(requestId)).thenReturn(Optional.of(RequestHistory.builder().build()));
+
+        assertThrows(DuplicateRequestException.class, () -> {
+            historyService.validateHistoryRequestIdNotExist(requestId);
+        });
+
+        verify(historyRepository, times(1)).findByRequestId(requestId);
+    }
+
+    @Test
+    public void testValidateTimeFrameRangeThrowForDays() {
+        LocalDateTime startTime = LocalDateTime.now().minusDays(6);
+        LocalDateTime endTime = LocalDateTime.now();
+        long startTimeMock = startTime.toInstant(ZoneOffset.UTC).toEpochMilli();
+        long endTimeMock = endTime.toInstant(ZoneOffset.UTC).toEpochMilli();
+
+        assertThrows(TimeRangeException.class, () -> {
+            historyService.getRequestCountInTimeFrame(externalServiceName,startTimeMock, endTimeMock);
+        });
+    }
+
+    @Test
+    public void testValidateTimeFrameRangeThrowForHours() {
+        LocalDateTime startTime = LocalDateTime.now().minusHours(27);
+        LocalDateTime endTime = LocalDateTime.now();
+        long startTimeMock = startTime.toInstant(ZoneOffset.UTC).toEpochMilli();
+        long endTimeMock = endTime.toInstant(ZoneOffset.UTC).toEpochMilli();
+
+        assertThrows(TimeRangeException.class, () -> {
+            historyService.getRequestCountInTimeFrame(externalServiceName,startTimeMock, endTimeMock);
+        });
     }
 }

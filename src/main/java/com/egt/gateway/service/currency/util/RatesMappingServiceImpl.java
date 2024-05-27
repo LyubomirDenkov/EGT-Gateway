@@ -1,14 +1,13 @@
-package com.egt.gateway.service.util;
+package com.egt.gateway.service.currency.util;
 
-import com.egt.gateway.controller.json.dto.CurrentCurrencyRatesResponse;
 import com.egt.gateway.controller.json.dto.RatesJsonData;
 import com.egt.gateway.controller.xml.dto.RatesXmlData;
 import com.egt.gateway.model.CurrencyData;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 @AllArgsConstructor

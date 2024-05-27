@@ -1,6 +1,6 @@
 package com.egt.gateway.client;
 
-import com.egt.gateway.model.dto.RatesResponse;
+import com.egt.gateway.client.dto.RatesResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

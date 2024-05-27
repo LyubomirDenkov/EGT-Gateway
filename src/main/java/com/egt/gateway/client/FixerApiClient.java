@@ -1,6 +1,6 @@
 package com.egt.gateway.client;
 
-import com.egt.gateway.model.dto.RatesResponse;
+import com.egt.gateway.client.dto.RatesResponse;
 
 public interface FixerApiClient {
 

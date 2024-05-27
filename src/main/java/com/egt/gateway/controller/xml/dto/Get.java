@@ -15,5 +15,4 @@ public class Get {
 
     @XmlElement(name = "currency")
     private String currency;
-
 }

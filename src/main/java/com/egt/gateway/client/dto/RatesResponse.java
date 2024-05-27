@@ -1,4 +1,4 @@
-package com.egt.gateway.model.dto;
+package com.egt.gateway.client.dto;
 
 import lombok.*;
 
