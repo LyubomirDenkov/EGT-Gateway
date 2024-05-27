@@ -6,8 +6,8 @@ services:
     restart: always
     image: postgres:15.7
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123aa567
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
       POSTGRES_DB: gateway
     ports:
       - "5432:5432"
@@ -41,7 +41,7 @@ services:
       - backend-network
     environment:
       SPRING_FLYWAY_ENABLED: "true"
-
+      
 volumes:
   data:
   rabbitmq_data:
